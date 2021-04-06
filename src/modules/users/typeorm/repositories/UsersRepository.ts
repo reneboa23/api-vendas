@@ -1,27 +1,37 @@
 import { EntityRepository, Repository } from 'typeorm';
-import UserToken from '../entities/UserToken';
+import User from '../entities/User';
 
-@EntityRepository(UserToken)
-class UsersTokensRepository extends Repository<UserToken> {
-  public async findByToken(token: string): Promise<UserToken | undefined> {
-    const userToken = await this.findOne({
-      where: {
-        token,
-      },
-    });
+@EntityRepository(User)
+class UsersRepository extends Repository<User> {
+    public async findByName(name: string): Promise<User | undefined> {
+        const user = await this.findOne({
+            where: {
+                name,
+            },
+        });
 
-    return userToken;
-  }
+        return user;
+    }
 
-  public async generate(user_id: string): Promise<UserToken | undefined> {
-    const userToken = await this.create({
-        user_id,
-    });
+    public async findById(id: string): Promise<User | undefined> {
+        const user = await this.findOne({
+            where: {
+                id,
+            },
+        });
 
-    await this.save(userToken);
+        return user;
+    }
 
-    return userToken;
-  }
+    public async findByEmail(email: string): Promise<User | undefined> {
+        const user = await this.findOne({
+            where: {
+                email,
+            },
+        });
+
+        return user;
+    }
 }
 
-export default UsersTokensRepository;
+export default UsersRepository;
