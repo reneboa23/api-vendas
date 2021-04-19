@@ -1,29 +1,34 @@
-import AppError from "@shared/errors/AppError";
-import { getCustomRepository } from "typeorm";
-import Product from "../typeorm/entities/Product";
-import { ProductRepository } from "../typeorm/repositories/ProductsRepositories";
+import AppError from '@shared/errors/AppError';
+import { getCustomRepository } from 'typeorm';
+import Product from '../typeorm/entities/Product';
+import { ProductRepository } from '../typeorm/repositories/ProductsRepositories';
 
-interface IRequest{
+interface IRequest {
     id: string;
     name: string;
     price: number;
     quantity: number;
 }
 class UpdateProductService {
-    public async execute({ id, name, price, quantity }: IRequest): Promise<Product> {
+    public async execute({
+        id,
+        name,
+        price,
+        quantity,
+    }: IRequest): Promise<Product> {
         const productsRepository = getCustomRepository(ProductRepository);
 
         //traz um produto especifico do repositorio.
         const product = await productsRepository.findOne(id);
 
         //verifica se existe o produto.
-        if(!product){
+        if (!product) {
             throw new AppError('Produto não existe.');
         }
 
         //verifica se ja esxite o nome do produto e guarda na const
         const productExists = await productsRepository.findByName(name);
-        if(productExists){
+        if (productExists) {
             throw new AppError('Existe um produto com este nome');
         }
 

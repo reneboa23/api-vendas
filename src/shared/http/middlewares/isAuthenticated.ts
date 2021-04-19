@@ -3,7 +3,7 @@ import { verify } from 'jsonwebtoken';
 import AppError from '@shared/errors/AppError';
 import authConfig from '@config/auth';
 
-interface ITokenPayload{
+interface ITokenPayload {
     iat: number;
     exp: number;
     sub: string;
@@ -16,23 +16,23 @@ export default function isAuthenticated(
 ): void {
     const authHeader = request.headers.authorization;
 
-    if(!authHeader) {
+    if (!authHeader) {
         throw new AppError('JWT Token is missing');
-    };
+    }
 
     const [, token] = authHeader.split(' ');
 
-    try{
+    try {
         const decodedtoken = verify(token, authConfig.jwt.secret);
 
         const { sub } = decodedtoken as ITokenPayload;
 
         request.user = {
             id: sub,
-        }
+        };
 
         return next();
-    } catch{
+    } catch {
         throw new AppError('token JWT invalido');
     }
 }

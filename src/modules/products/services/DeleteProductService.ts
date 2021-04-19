@@ -1,9 +1,9 @@
-import AppError from "@shared/errors/AppError";
-import { getCustomRepository } from "typeorm";
-import { ProductRepository } from "../typeorm/repositories/ProductsRepositories";
+import AppError from '@shared/errors/AppError';
+import { getCustomRepository } from 'typeorm';
+import { ProductRepository } from '../typeorm/repositories/ProductsRepositories';
 
-interface IRequest{
-    id: string
+interface IRequest {
+    id: string;
 }
 class DeleteProductService {
     public async execute({ id }: IRequest): Promise<void> {
@@ -13,7 +13,7 @@ class DeleteProductService {
         const product = await productsRepository.findOne(id);
 
         //verifica se existe o produto.
-        if(!product){
+        if (!product) {
             throw new AppError('Produto não existe.');
         }
 
