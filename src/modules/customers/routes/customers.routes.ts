@@ -7,6 +7,7 @@ const customersRouter = Router();
 const customersController = new CustomersController();
 
 customersRouter.use(isAuthenticated);
+
 customersRouter.get('/', customersController.index);
 
 customersRouter.get(
